@@ -73,19 +73,21 @@
     </div>
 
     <script src="js/script.js"></script>
-<script src="js/script.js"></script>
-<script>
-
-     function getBasePath() {
+    <script>
+        // Функция для определения базового пути
+        function getBasePath() {
             const path = window.location.pathname;
+            // Если мы на главной странице
             if (path.endsWith('index.html') || path.endsWith('/')) {
                 return '';
-            } else {
+            } 
+            // Если мы в подпапке (например, pages/multiplication.html)
+            else {
                 return '../';
             }
         }
 
-      document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const basePath = getBasePath();
             
             fetch(basePath + 'layout.html')
@@ -117,71 +119,74 @@
                 });
         });
 
-    function navigateToMultiplication() {
-        window.location.href = 'pages/multiplication.html';
-    }
+        function navigateToMultiplication() {
+            const basePath = getBasePath();
+            window.location.href = basePath + 'pages/multiplication.html';
+        }
 
-    function initModal() {
-        const modal = document.getElementById('modal');
-        const closeBtn = document.querySelector('.close-modal');
-        const modalBtn = document.querySelector('.modal-button');
-        
-        if (closeBtn) {
-            closeBtn.addEventListener('click', hideModal);
-        }
-        
-        if (modalBtn) {
-            modalBtn.addEventListener('click', hideModal);
-        }
-        
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                hideModal();
+        function initModal() {
+            const modal = document.getElementById('modal');
+            const closeBtn = document.querySelector('.close-modal');
+            const modalBtn = document.querySelector('.modal-button');
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', hideModal);
             }
-        });
-    }
-
-    function showModal(type, title, message) {
-        const modal = document.getElementById('modal');
-        const icon = document.getElementById('modal-icon');
-        const modalTitle = document.getElementById('modal-title');
-        const modalMessage = document.getElementById('modal-message');
-        
-        if (!modal || !icon || !modalTitle || !modalMessage) return;
-        
-        icon.className = 'modal-icon';
-        switch(type) {
-            case 'info':
-                icon.innerHTML = '<i class="fas fa-info-circle"></i>';
-                icon.classList.add('info');
-                break;
-            case 'success':
-                icon.innerHTML = '<i class="fas fa-check-circle"></i>';
-                icon.classList.add('success');
-                break;
-            case 'error':
-                icon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
-                icon.classList.add('error');
-                break;
+            
+            if (modalBtn) {
+                modalBtn.addEventListener('click', hideModal);
+            }
+            
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        hideModal();
+                    }
+                });
+            }
         }
-        
-        modalTitle.textContent = title;
-        modalMessage.textContent = message;
-        modal.style.display = 'block';
-    }
 
-    function hideModal() {
-        const modal = document.getElementById('modal');
-        if (modal) {
-            modal.style.display = 'none';
+        function showModal(type, title, message) {
+            const modal = document.getElementById('modal');
+            const icon = document.getElementById('modal-icon');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            
+            if (!modal || !icon || !modalTitle || !modalMessage) return;
+            
+            icon.className = 'modal-icon';
+            switch(type) {
+                case 'info':
+                    icon.innerHTML = '<i class="fas fa-info-circle"></i>';
+                    icon.classList.add('info');
+                    break;
+                case 'success':
+                    icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    icon.classList.add('success');
+                    break;
+                case 'error':
+                    icon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+                    icon.classList.add('error');
+                    break;
+            }
+            
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modal.style.display = 'block';
         }
-    }
 
-    document.body.style.opacity = '0';
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.5s ease-in';
-        document.body.style.opacity = '1';
-    }, 100);
-</script>
+        function hideModal() {
+            const modal = document.getElementById('modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+            document.body.style.transition = 'opacity 0.5s ease-in';
+            document.body.style.opacity = '1';
+        }, 100);
+    </script>
 </body>
 </html>
