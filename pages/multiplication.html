@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Таблица умножения - Игра</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/game.css">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="../css/style.css?v=3">
+    <link rel="stylesheet" href="../css/game.css?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Gabriela&display=swap" rel="stylesheet">
 </head>
@@ -143,12 +146,12 @@
         </div>
     </div>
 
-    <script src="../js/script.js"></script>
-    <script src="../js/multiplication-game.js"></script>
+    <script src="../js/script.js?v=3"></script>
+    <script src="../js/multiplication-game.js?v=3"></script>
     <script>
         // Загрузка хедера
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('../layout.html')
+            fetch('../layout.html?v=3')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('header-container').innerHTML = data;
@@ -165,10 +168,10 @@
                     document.getElementById('header-container').innerHTML = `
                         <header class="header">
                            <div class="logo">
-        <img src="../images/logo.jpg" alt="Логотип школы">
+        <img src="../images/logo.jpg?v=3" alt="Логотип школы">
     </div>
                             <nav class="nav-menu">
-                                <a href="../index.html" class="nav-item"><i class="fas fa-times-circle"></i> Главная страница</a>
+                                <a href="../index.html?v=3" class="nav-item"><i class="fas fa-times-circle"></i> Главная страница</a>
                                 <a href="#" class="nav-item"><i class="fas fa-paint-brush"></i> Разукрашка</a>
                                 <a href="https://school-4.edusite.ru/" class="nav-item"><i class="fas fa-school"></i> Сайт школы</a>
                                 <a href="https://vk.com/prestige_4" class="nav-item"><i class="fab fa-vk"></i> VKонтакте</a>
