@@ -38,7 +38,6 @@
     padding: 15px 30px;
 }
 
-/* Форма регистрации */
 .registration-form {
     max-width: 400px;
     margin: 0 auto;
@@ -72,7 +71,6 @@
     border-color: #4a76a8;
 }
 
-/* Выбор уровня */
 .levels-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -102,7 +100,6 @@
     transform: none;
 }
 
-/* Игровой экран */
 .game-header {
     display: flex;
     justify-content: space-between;
@@ -167,7 +164,6 @@
     background-color: #5a6268;
 }
 
-/* Экран результатов */
 .results-container {
     margin: 30px 0;
 }
@@ -206,7 +202,6 @@
     display: block;
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
     .multiplication-table {
         grid-template-columns: repeat(6, 1fr);
@@ -228,5 +223,663 @@
     .results-buttons {
         flex-direction: column;
         align-items: center;
+    }
+}
+
+.table-container {
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* Основные стили таблицы */
+.multiplication-table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-family: 'Gabriela', serif;
+    font-size: 16px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.multiplication-table th,
+.multiplication-table td {
+    padding: 12px;
+    text-align: center;
+    border: 2px solid #e3f2fd;
+    min-width: 45px;
+}
+
+.multiplication-table th {
+    background: linear-gradient(135deg, #4a76a8, #6a96c8);
+    color: white;
+    font-weight: bold;
+    padding: 15px;
+    text-align: center;
+    border: 2px solid #3a5f8a;
+}
+
+.multiplication-table tr:nth-child(even) {
+    background-color: #f8fbff;
+}
+
+.multiplication-table tr:hover {
+    background-color: #e3f2fd;
+}
+
+.multiplication-table td:first-child {
+    background: linear-gradient(135deg, #6a96c8, #4a76a8);
+    color: white;
+    font-weight: bold;
+}
+
+.start-button-container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.start-game-btn {
+    font-size: 20px;
+    padding: 15px 40px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #4a76a8, #6a96c8);
+    box-shadow: 0 4px 15px rgba(74, 118, 168, 0.3);
+}
+
+.start-game-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(74, 118, 168, 0.4);
+}
+
+.start-game-btn i {
+    margin-right: 10px;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+.modal-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.modal-icon.success {
+    color: #28a745;
+}
+
+.modal-icon.error {
+    color: #dc3545;
+}
+
+.modal-icon.info {
+    color: #4a76a8;
+}
+
+#modal-title {
+    color: #4a76a8;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+#modal-message {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.correct-answer {
+    animation: correctFlash 0.5s ease;
+}
+
+@keyframes correctFlash {
+    0%, 100% { border-color: #4a76a8; background-color: white; }
+    50% { border-color: #28a745; background-color: #d4edda; }
+}
+
+.wrong-answer {
+    animation: wrongFlash 0.5s ease;
+}
+
+@keyframes wrongFlash {
+    0%, 100% { border-color: #4a76a8; background-color: white; }
+    50% { border-color: #dc3545; background-color: #f8d7da; }
+}
+
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(135deg, #4a76a8, #6a96c8);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+@media (max-width: 768px) {
+    .multiplication-table {
+        font-size: 14px;
+    }
+    
+    .multiplication-table th,
+    .multiplication-table td {
+        padding: 10px;
+        min-width: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .multiplication-table {
+        font-size: 12px;
+    } 
+    .multiplication-table th,
+    .multiplication-table td {
+        padding: 8px;
+        min-width: 35px;
+    }
+    .start-game-btn {
+        padding: 12px 30px;
+        font-size: 18px;
+    }
+}
+
+/* Контейнер для таблицы и текста */
+.table-content-wrapper {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 30px 0;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Стили для текстового блока */
+/* Улучшенные стили для текстового блока на компьютере */
+.inspiration-text {
+    flex: 1;
+    max-width: 450px;
+    min-width: 380px;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+    padding: 35px 40px;
+    border-radius: 20px;
+    border-left: 6px solid #4a76a8;
+    box-shadow: 0 8px 25px rgba(74, 118, 168, 0.15);
+    display: flex;
+    align-items: center;
+    height: fit-content;
+}
+
+.text-content {
+    text-align: center;
+    width: 100%;
+}
+
+.text-content i {
+    font-size: 48px;
+    color: #4a76a8;
+    margin-bottom: 25px;
+    display: block;
+    opacity: 0.9;
+}
+
+.text-content h3 {
+    color: #4a76a8;
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.3;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.text-content p {
+    color: #444;
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    text-align: left;
+    font-style: italic;
+}
+
+.quote-author {
+    color: #666;
+    font-style: italic;
+    font-size: 15px;
+    text-align: right;
+    margin-top: 20px;
+    font-weight: 500;
+    border-top: 1px solid #d0deff;
+    padding-top: 15px;
+}
+
+/* Улучшаем таблицу для баланса */
+.table-container {
+    margin: 0;
+    flex: 1;
+    max-width: 600px;
+}
+
+.multiplication-table {
+    font-size: 17px;
+}
+
+.multiplication-table th,
+.multiplication-table td {
+    padding: 14px;
+    min-width: 50px;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 1024px) {
+    .table-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    
+    .inspiration-text {
+        max-width: 100%;
+        min-width: unset;
+        order: -1;
+        padding: 25px 30px;
+    }
+    
+    .text-content i {
+        font-size: 40px;
+    }
+    
+    .text-content h3 {
+        font-size: 22px;
+    }
+    
+    .text-content p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-content-wrapper {
+        gap: 25px;
+    }
+    
+    .inspiration-text {
+        padding: 20px 25px;
+    }
+    
+    .text-content i {
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+    
+    .text-content h3 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .text-content p {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+    
+    .quote-author {
+        font-size: 14px;
+        margin-top: 15px;
+        padding-top: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .inspiration-text {
+        padding: 18px 20px;
+        border-left: 4px solid #4a76a8;
+    }
+    
+    .text-content i {
+        font-size: 32px;
+    }
+    
+    .text-content h3 {
+        font-size: 18px;
+    }
+    
+    .text-content p {
+        font-size: 14px;
+        text-align: justify;
+        line-height: 1.5;
+    }
+    
+    .quote-author {
+        font-size: 13px;
+    }
+}
+
+/* Дополнительные улучшения */
+.multiplication-table-screen h1 {
+    text-align: center;
+    color: #4a76a8;
+    margin-bottom: 40px;
+    font-size: 2.8em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+.start-button-container {
+    text-align: center;
+    margin-top: 50px;
+    width: 100%;
+}
+
+/* Эффект при наведении на текстовый блок */
+.inspiration-text:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(74, 118, 168, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Плавное появление */
+.table-content-wrapper > * {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.table-container {
+    animation-delay: 0.1s;
+}
+
+.inspiration-text {
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Улучшенная адаптивность для таблицы умножения */
+.table-container {
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 10px;
+}
+
+.multiplication-table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-family: 'Gabriela', serif;
+    font-size: 16px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: auto;
+    min-width: 300px;
+    max-width: 100%;
+}
+
+.multiplication-table th {
+    background: linear-gradient(135deg, #4a76a8, #6a96c8);
+    color: white;
+    font-weight: bold;
+    padding: 12px 10px;
+    text-align: center;
+    border: 2px solid #3a5f8a;
+    font-size: 14px;
+}
+
+.multiplication-table td {
+    padding: 10px 8px;
+    text-align: center;
+    border: 2px solid #e3f2fd;
+    min-width: 35px;
+    font-size: 14px;
+}
+
+.multiplication-table td:first-child {
+    background: linear-gradient(135deg, #6a96c8, #4a76a8);
+    color: white;
+    font-weight: bold;
+    padding: 12px 10px;
+    font-size: 14px;
+}
+
+/* Улучшенная адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .table-container {
+        margin: 20px 5px;
+        padding: 5px;
+    }
+    
+    .multiplication-table {
+        font-size: 12px;
+        min-width: 280px;
+    }
+    
+    .multiplication-table th,
+    .multiplication-table td {
+        padding: 8px 6px;
+        min-width: 30px;
+        font-size: 12px;
+    }
+    
+    .multiplication-table td:first-child {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .multiplication-table {
+        font-size: 11px;
+        min-width: 260px;
+    }
+    
+    .multiplication-table th,
+    .multiplication-table td {
+        padding: 6px 4px;
+        min-width: 25px;
+        font-size: 11px;
+    }
+    
+    .multiplication-table td:first-child {
+        padding: 6px 4px;
+        font-size: 11px;
+    }
+    
+    /* Уменьшаем отступы для очень маленьких экранов */
+    .table-content-wrapper {
+        gap: 15px;
+    }
+    
+    .inspiration-text {
+        padding: 15px;
+    }
+}
+
+/* Для очень маленьких экранов (менее 320px) */
+@media (max-width: 320px) {
+    .multiplication-table {
+        font-size: 10px;
+        min-width: 240px;
+    }
+    
+    .multiplication-table th,
+    .multiplication-table td {
+        padding: 5px 3px;
+        min-width: 22px;
+        font-size: 10px;
+    }
+    
+    .multiplication-table td:first-child {
+        padding: 5px 3px;
+        font-size: 10px;
+    }
+}
+
+/* Горизонтальная прокрутка для очень узких экранов */
+.table-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #4a76a8;
+    border-radius: 3px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #3a5f8a;
+}
+
+/* Улучшаем читаемость на маленьких экранах */
+.multiplication-table tr:nth-child(even) {
+    background-color: #f8fbff;
+}
+
+.multiplication-table tr:hover {
+    background-color: #e3f2fd;
+}
+
+/* Убедимся, что таблица не выходит за пределы экрана */
+.multiplication-table-screen {
+    overflow-x: hidden;
+}
+
+/* Улучшаем внешний вид на мобильных устройствах */
+@media (max-width: 768px) {
+    .multiplication-table-screen h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+        padding: 0 10px;
+    }
+    
+    .start-button-container {
+        margin-top: 30px;
+    }
+    
+    .start-game-btn {
+        font-size: 18px;
+        padding: 12px 30px;
+    }
+}
+
+/* Стили для формы с двумя селектами */
+.registration-form {
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #4a76a8;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Gabriela', serif;
+    font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4a76a8;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 480px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
     }
 }

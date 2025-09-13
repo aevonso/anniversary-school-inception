@@ -13,23 +13,23 @@
     <div id="header-container"></div>
     
     <main class="content">
-        <h1>Добро пожаловать на школьный портал!</h1>
+        <h1>95-летие родной школы!</h1>
         <p>Выберите один из разделов ниже:</p>
         
         <ul class="menu-list">
             <li onclick="navigateToMultiplication()">
                 <i class="fas fa-times-circle"></i> Таблица умножения
             </li>
-            <li onclick="alert('Раздел в разработке: Разукрашка')">
+            <li onclick="showModal('info', 'Разукрашка', 'Этот раздел находится в разработке. Скоро здесь появятся интересные раскраски!')">
                 <i class="fas fa-paint-brush"></i> Разукрашка
             </li>
-            <li onclick="alert('Раздел в разработке: Сайт нашей школы')">
+            <li onclick="showModal('info', 'Сайт школы', 'Раздел в разработке. Скоро будет доступен официальный сайт школы!')">
                 <i class="fas fa-school"></i> Сайт нашей школы
             </li>
             <li onclick="window.open('https://vk.com', '_blank')">
                 <i class="fab fa-vk"></i> Группа VKонтакте
             </li>
-            <li onclick="alert('Раздел в разработке: Группа Пресс-центра')">
+            <li onclick="showModal('info', 'Пресс-центр', 'Раздел в разработке. Скоро здесь будут новости школьного пресс-центра!')">
                 <i class="fas fa-newspaper"></i> Группа Пресс-центра
             </li>
         </ul>
@@ -56,27 +56,22 @@
             </div>
             <button class="action-button" onclick="navigateToMultiplication()">Начать изучение</button>
         </div>
-
-        <div class="news-section">
-            <h2>Последние новости</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <h3>Новая игра!</h3>
-                    <p>Добавлена интерактивная таблица умножения с игровыми элементами</p>
-                    <span class="news-date">15.01.2024</span>
-                </div>
-                <div class="news-card">
-                    <h3>Скоро обновление</h3>
-                    <p>В разработке раздел "Разукрашка" для творческого развития</p>
-                    <span class="news-date">10.01.2024</span>
-                </div>
-            </div>
-        </div>
     </main>
 
     <footer class="footer">
-        <p>© 2024 Школьный портал. Все права защищены.</p>
+        <p>© 2025 юбилей школы №4. Все права защищены.</p>
     </footer>
+
+    <!-- Модальное окно -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon" id="modal-icon"></div>
+            <h3 id="modal-title"></h3>
+            <p id="modal-message"></p>
+            <button class="action-button modal-button">Понятно</button>
+        </div>
+    </div>
 
     <script src="js/script.js"></script>
     <script>
@@ -90,6 +85,25 @@
                     if (typeof initHeader === 'function') {
                         initHeader();
                     }
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки хедера:', error);
+                    document.getElementById('header-container').innerHTML = `
+                        <header class="header">
+                            <div class="logo">
+                                <img src="images/logo.jpg" alt="Логотип школы">
+                            </div>
+                            <nav class="nav-menu">
+                                <a href="../pages/multiplication.html" class="nav-item"><i class="fas fa-times-circle"></i> Таблица умножения</a>
+                                <a href="#" class="nav-item"><i class="fas fa-paint-brush"></i> Разукрашка</a>
+                                <a href="https://school-4.edusite.ru/" class="nav-item"><i class="fas fa-school"></i> Сайт школы</a>
+                                <a href="https://vk.com/prestige_4" class="nav-item"><i class="fab fa-vk"></i> Группа VKонтакте</a>
+                                <a href="https://vk.com/asjfksu" class="nav-item"><i class="fas fa-newspaper"></i> Пресс-центр</a>
+                            </nav>
+                        </header>
+                        <div class="separator"></div>
+                    `;
+                    initModal();
                 });
         });
 
@@ -98,10 +112,71 @@
             window.location.href = 'pages/multiplication.html';
         }
 
-        // Функция для показа уведомления о разработке
-        function showDevelopmentNotice() {
-            alert('Этот раздел находится в разработке. Скоро будет доступен!');
+        // Инициализация модального окна
+        function initModal() {
+            const modal = document.getElementById('modal');
+            const closeBtn = document.querySelector('.close-modal');
+            const modalBtn = document.querySelector('.modal-button');
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', hideModal);
+            }
+            
+            if (modalBtn) {
+                modalBtn.addEventListener('click', hideModal);
+            }
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
         }
+
+        // Показать модальное окно
+        function showModal(type, title, message) {
+            const modal = document.getElementById('modal');
+            const icon = document.getElementById('modal-icon');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            
+            if (!modal || !icon || !modalTitle || !modalMessage) return;
+            
+            // Устанавливаем иконку в зависимости от типа
+            icon.className = 'modal-icon';
+            switch(type) {
+                case 'info':
+                    icon.innerHTML = '<i class="fas fa-info-circle"></i>';
+                    icon.classList.add('info');
+                    break;
+                case 'success':
+                    icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    icon.classList.add('success');
+                    break;
+                case 'error':
+                    icon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+                    icon.classList.add('error');
+                    break;
+            }
+            
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modal.style.display = 'block';
+        }
+
+        // Скрыть модальное окно
+        function hideModal() {
+            const modal = document.getElementById('modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+            document.body.style.transition = 'opacity 0.5s ease-in';
+            document.body.style.opacity = '1';
+        }, 100);
     </script>
 </body>
 </html>

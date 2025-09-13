@@ -1,4 +1,6 @@
 function initMultiplicationGame() {
+    console.log('Инициализация игры с таблицей умножения...');
+    
     let playerInfo = {
         firstName: '',
         lastName: '',
@@ -9,7 +11,9 @@ function initMultiplicationGame() {
         currentLevel: 0,
         correctAnswers: 0,
         wrongAnswers: 0,
-        currentQuestion: null
+        currentQuestion: null,
+        totalQuestions: 10,
+        completedQuestions: 0
     };
     
     const screens = {
@@ -20,40 +24,76 @@ function initMultiplicationGame() {
         results: document.getElementById('results-screen')
     };
     
-    function init() {
-        generateMultiplicationTable();
-        generateLevelButtons();
-        setupEventListeners();
+    const modal = {
+        element: document.getElementById('notification-modal'),
+        icon: document.getElementById('modal-icon'),
+        title: document.getElementById('modal-title'),
+        message: document.getElementById('modal-message'),
+        button: document.getElementById('modal-button'),
+        close: document.querySelector('.close-modal')
+    };
+    
+ function init() {
+    console.log('Запуск инициализации игры...');
+    generateMultiplicationTable();
+    generateLevelButtons();
+    setupEventListeners();
+    setupModal();
+    initTouchEvents(); 
+    console.log('Игра успешно инициализирована');
+}
+
+function generateMultiplicationTable() {
+    console.log('Генерация таблицы умножения...');
+    const tbody = document.querySelector('.multiplication-table tbody');
+    if (!tbody) {
+        console.error('Не найден tbody для таблицы умножения');
+        return;
     }
     
-    function generateMultiplicationTable() {
-        const tableContainer = document.querySelector('.multiplication-table');
-        
-        while (tableContainer.children.length > 1) {
-            tableContainer.removeChild(tableContainer.lastChild);
-        }
-        
-        for (let i = 1; i <= 10; i++) {
-            const row = document.createElement('div');
-            row.className = 'table-row';
-            
-            const multiplierCell = document.createElement('div');
-            multiplierCell.textContent = i;
-            multiplierCell.style.fontWeight = 'bold';
-            row.appendChild(multiplierCell);
-            
-            for (let j = 1; j <= 10; j++) {
-                const cell = document.createElement('div');
-                cell.textContent = i * j;
-                row.appendChild(cell);
-            }
-            
-            tableContainer.appendChild(row);
-        }
+    tbody.innerHTML = '';
+    
+    const headerRow = document.createElement('tr');
+    const emptyHeader = document.createElement('th');
+    emptyHeader.textContent = '×';
+    headerRow.appendChild(emptyHeader);
+    
+    for (let j = 1; j <= 10; j++) {
+        const th = document.createElement('th');
+        th.textContent = j;
+        headerRow.appendChild(th);
     }
+    tbody.appendChild(headerRow);
+    
+    for (let i = 1; i <= 10; i++) {
+        const row = document.createElement('tr');
+        
+        const headerCell = document.createElement('th');
+        headerCell.textContent = i;
+        row.appendChild(headerCell);
+        
+        for (let j = 1; j <= 10; j++) {
+            const cell = document.createElement('td');
+            cell.textContent = i * j;
+            
+            cell.setAttribute('aria-label', `${i} умножить на ${j} равно ${i * j}`);
+            
+            row.appendChild(cell);
+        }
+        
+        tbody.appendChild(row);
+    }
+    console.log('Таблица умножения сгенерирована');
+}
     
     function generateLevelButtons() {
+        console.log('Генерация кнопок уровней...');
         const levelsContainer = document.querySelector('.levels-grid');
+        if (!levelsContainer) {
+            console.error('Не найден контейнер для уровней');
+            return;
+        }
+        
         levelsContainer.innerHTML = '';
         
         for (let i = 1; i <= 10; i++) {
@@ -64,31 +104,121 @@ function initMultiplicationGame() {
             button.addEventListener('click', () => startLevel(i));
             levelsContainer.appendChild(button);
         }
+        console.log('Кнопки уровней сгенерированы');
+    }
+    
+    function setupModal() {
+        console.log('Настройка модального окна...');
+        if (!modal.close || !modal.button) {
+            console.error('Элементы модального окна не найдены');
+            return;
+        }
+        
+        modal.close.addEventListener('click', hideModal);
+        modal.button.addEventListener('click', hideModal);
+        
+        modal.element.addEventListener('click', function(e) {
+            if (e.target === modal.element) {
+                hideModal();
+            }
+        });
+        console.log('Модальное окно настроено');
+    }
+    
+    function showModal(type, title, message) {
+        if (!modal.element || !modal.icon || !modal.title || !modal.message) {
+            console.error('Элементы модального окна не найдены');
+            alert(`${title}: ${message}`);
+            return;
+        }
+        
+        modal.icon.className = 'modal-icon';
+        modal.title.textContent = title;
+        modal.message.textContent = message;
+        
+        switch(type) {
+            case 'success':
+                modal.icon.className += ' success';
+                modal.icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                break;
+            case 'error':
+                modal.icon.className += ' error';
+                modal.icon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                break;
+            case 'info':
+                modal.icon.className += ' info';
+                modal.icon.innerHTML = '<i class="fas fa-info-circle"></i>';
+                break;
+        }
+        
+        modal.element.style.display = 'block';
+    }
+    
+    function hideModal() {
+        if (modal.element) {
+            modal.element.style.display = 'none';
+        }
     }
     
     function setupEventListeners() {
-        document.querySelector('.start-game-btn').addEventListener('click', showRegistrationScreen);
+        console.log('Настройка обработчиков событий...');
         
-        document.getElementById('registration-form').addEventListener('submit', handleRegistration);
+        const startBtn = document.querySelector('.start-game-btn');
+        if (startBtn) {
+            startBtn.addEventListener('click', showRegistrationScreen);
+        } else {
+            console.error('Не найдена кнопка начала игры');
+        }
         
-        document.getElementById('submit-answer').addEventListener('click', checkAnswer);
-        document.getElementById('back-to-levels').addEventListener('click', showLevelSelectionScreen);
-        document.getElementById('play-again').addEventListener('click', showLevelSelectionScreen);
-        document.getElementById('back-to-menu').addEventListener('click', () => window.location.href = '../index.html');
+        const registrationForm = document.getElementById('registration-form');
+        if (registrationForm) {
+            registrationForm.addEventListener('submit', handleRegistration);
+        } else {
+            console.error('Не найдена форма регистрации');
+        }
         
-        document.getElementById('answer-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkAnswer();
-            }
-        });
+        const submitAnswerBtn = document.getElementById('submit-answer');
+        if (submitAnswerBtn) {
+            submitAnswerBtn.addEventListener('click', checkAnswer);
+        }
+        
+        const backToLevelsBtn = document.getElementById('back-to-levels');
+        if (backToLevelsBtn) {
+            backToLevelsBtn.addEventListener('click', showLevelSelectionScreen);
+        }
+        
+        const playAgainBtn = document.getElementById('play-again');
+        if (playAgainBtn) {
+            playAgainBtn.addEventListener('click', showLevelSelectionScreen);
+        }
+        
+        const backToMenuBtn = document.getElementById('back-to-menu');
+        if (backToMenuBtn) {
+            backToMenuBtn.addEventListener('click', () => window.location.href = '../index.html');
+        }
+        
+        const answerInput = document.getElementById('answer-input');
+        if (answerInput) {
+            answerInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
+        }
+        
+        console.log('Обработчики событий настроены');
     }
     
     function showScreen(screenName) {
         Object.values(screens).forEach(screen => {
-            screen.classList.remove('active');
+            if (screen) {
+                screen.classList.remove('active');
+            }
         });
         
-        screens[screenName].classList.add('active');
+        if (screens[screenName]) {
+            screens[screenName].classList.add('active');
+        }
     }
     
     function showRegistrationScreen() {
@@ -96,56 +226,104 @@ function initMultiplicationGame() {
     }
     
     function showLevelSelectionScreen() {
-        document.getElementById('player-name').textContent = `${playerInfo.firstName} ${playerInfo.lastName}`;
-        document.getElementById('player-class').textContent = playerInfo.class;
+        if (document.getElementById('player-name') && document.getElementById('player-class')) {
+            document.getElementById('player-name').textContent = `${playerInfo.firstName} ${playerInfo.lastName}`;
+            document.getElementById('player-class').textContent = playerInfo.class;
+        }
         showScreen('levelSelection');
     }
     
     function showGameScreen() {
-        document.getElementById('current-player').textContent = `${playerInfo.firstName} ${playerInfo.lastName}`;
-        document.getElementById('current-level').textContent = gameState.currentLevel;
+        if (document.getElementById('current-player') && document.getElementById('current-level')) {
+            document.getElementById('current-player').textContent = `${playerInfo.firstName} ${playerInfo.lastName}`;
+            document.getElementById('current-level').textContent = gameState.currentLevel;
+        }
+        
         updateGameStats();
+        
+        if (!document.getElementById('progress-container')) {
+            const progressHTML = `
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            `;
+            const gameContent = document.querySelector('.game-content');
+            if (gameContent) {
+                gameContent.insertAdjacentHTML('afterbegin', progressHTML);
+            }
+        }
+        
+        updateProgressBar();
         generateQuestion();
         showScreen('game');
         
         setTimeout(() => {
-            document.getElementById('answer-input').focus();
+            const answerInput = document.getElementById('answer-input');
+            if (answerInput) {
+                answerInput.focus();
+            }
         }, 100);
     }
     
     function showResultsScreen() {
-        document.getElementById('result-level').textContent = gameState.currentLevel;
-        document.getElementById('result-correct').textContent = gameState.correctAnswers;
-        document.getElementById('result-wrong').textContent = gameState.wrongAnswers;
-        document.getElementById('result-grade').textContent = calculateGrade();
+        if (document.getElementById('result-level') && document.getElementById('result-correct') && 
+            document.getElementById('result-wrong') && document.getElementById('result-grade')) {
+            document.getElementById('result-level').textContent = gameState.currentLevel;
+            document.getElementById('result-correct').textContent = gameState.correctAnswers;
+            document.getElementById('result-wrong').textContent = gameState.wrongAnswers;
+            document.getElementById('result-grade').textContent = calculateGrade();
+        }
         showScreen('results');
     }
     
-    function handleRegistration(e) {
+     function handleRegistration(e) {
         e.preventDefault();
         
+        const firstName = document.getElementById('firstName');
+        const lastName = document.getElementById('lastName');
+        const classNumber = document.getElementById('classNumber');
+        const classLetter = document.getElementById('classLetter');
+        
+        if (!firstName || !lastName || !classNumber || !classLetter) {
+            showModal('error', 'Ошибка', 'Не найдены поля формы');
+            return;
+        }
+        
         playerInfo = {
-            firstName: document.getElementById('firstName').value.trim(),
-            lastName: document.getElementById('lastName').value.trim(),
-            class: document.getElementById('class').value
+            firstName: firstName.value.trim(),
+            lastName: lastName.value.trim(),
+            classNumber: classNumber.value,
+            classLetter: classLetter.value
         };
         
-        const classNum = parseInt(playerInfo.class);
-        if (classNum < 1 || classNum > 4) {
-            alert('Пожалуйста, выберите класс от 1 до 4');
+        // Проверка класса (1-4)
+        const classNum = parseInt(playerInfo.classNumber);
+        if (classNum < 1 || classNum > 4 || isNaN(classNum)) {
+            showModal('error', 'Ошибка', 'Пожалуйста, выберите класс от 1 до 4');
+            return;
+        }
+        
+        if (!playerInfo.classLetter) {
+            showModal('error', 'Ошибка', 'Пожалуйста, выберите букву класса');
+            return;
+        }
+        
+        if (!playerInfo.firstName || !playerInfo.lastName) {
+            showModal('error', 'Ошибка', 'Пожалуйста, заполните все поля');
             return;
         }
         
         showLevelSelectionScreen();
     }
     
-    // Начало уровня
     function startLevel(level) {
         gameState = {
             currentLevel: level,
             correctAnswers: 0,
             wrongAnswers: 0,
-            currentQuestion: null
+            currentQuestion: null,
+            totalQuestions: 10,
+            completedQuestions: 0
         };
         
         showGameScreen();
@@ -167,56 +345,97 @@ function initMultiplicationGame() {
         }
         
         gameState.currentQuestion = { a, b, answer: a * b };
-        document.getElementById('question').textContent = `${a} × ${b} = ?`;
-        document.getElementById('answer-input').value = '';
+        
+        const questionElement = document.getElementById('question');
+        if (questionElement) {
+            questionElement.textContent = `${a} × ${b} = ?`;
+        }
+        
+        const answerInput = document.getElementById('answer-input');
+        if (answerInput) {
+            answerInput.value = '';
+        }
     }
     
     function checkAnswer() {
         const input = document.getElementById('answer-input');
+        if (!input) {
+            console.error('Не найдено поле ввода ответа');
+            return;
+        }
+        
         const userAnswer = parseInt(input.value);
         
         if (isNaN(userAnswer)) {
-            alert('Пожалуйста, введите число');
+            showModal('error', 'Ошибка', 'Пожалуйста, введите число');
             input.focus();
             return;
         }
         
+        input.classList.remove('correct-answer', 'wrong-answer');
+        
         if (userAnswer === gameState.currentQuestion.answer) {
             gameState.correctAnswers++;
-            input.style.borderColor = '#28a745';
+            input.classList.add('correct-answer');
+            showModal('success', 'Правильно!', `Молодец! ${gameState.currentQuestion.a} × ${gameState.currentQuestion.b} = ${gameState.currentQuestion.answer}`);
+            
             setTimeout(() => {
-                input.style.borderColor = '#4a76a8';
+                hideModal();
                 nextQuestion();
-            }, 500);
+            }, 1500);
         } else {
             gameState.wrongAnswers++;
-            input.style.borderColor = '#dc3545';
+            input.classList.add('wrong-answer');
+            showModal('error', 'Неправильно', `Правильный ответ: ${gameState.currentQuestion.a} × ${gameState.currentQuestion.b} = ${gameState.currentQuestion.answer}`);
+            
             setTimeout(() => {
-                input.style.borderColor = '#4a76a8';
+                hideModal();
                 input.value = '';
                 input.focus();
-            }, 500);
+            }, 1500);
         }
         
+        gameState.completedQuestions++;
         updateGameStats();
+        updateProgressBar();
         
-        if (gameState.correctAnswers + gameState.wrongAnswers >= 10) {
-            setTimeout(showResultsScreen, 600);
+        if (gameState.completedQuestions >= gameState.totalQuestions) {
+            setTimeout(showResultsScreen, 1600);
         }
     }
     
     function nextQuestion() {
         generateQuestion();
-        document.getElementById('answer-input').focus();
+        const answerInput = document.getElementById('answer-input');
+        if (answerInput) {
+            answerInput.focus();
+        }
     }
     
     function updateGameStats() {
-        document.getElementById('correct-answers').textContent = gameState.correctAnswers;
-        document.getElementById('wrong-answers').textContent = gameState.wrongAnswers;
+        const correctElement = document.getElementById('correct-answers');
+        const wrongElement = document.getElementById('wrong-answers');
+        
+        if (correctElement) {
+            correctElement.textContent = gameState.correctAnswers;
+        }
+        if (wrongElement) {
+            wrongElement.textContent = gameState.wrongAnswers;
+        }
+    }
+    
+    function updateProgressBar() {
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) {
+            const progress = (gameState.completedQuestions / gameState.totalQuestions) * 100;
+            progressBar.style.width = progress + '%';
+        }
     }
     
     function calculateGrade() {
         const total = gameState.correctAnswers + gameState.wrongAnswers;
+        if (total === 0) return 'Нет данных';
+        
         const percentage = (gameState.correctAnswers / total) * 100;
         
         if (percentage >= 90) return '5 (Отлично)';
@@ -227,3 +446,27 @@ function initMultiplicationGame() {
     
     init();
 }
+
+function initTouchEvents() {
+    const tableContainer = document.querySelector('.table-container');
+    if (tableContainer) {
+        let startX;
+        let scrollLeft;
+        
+        tableContainer.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].pageX - tableContainer.offsetLeft;
+            scrollLeft = tableContainer.scrollLeft;
+        });
+        
+        tableContainer.addEventListener('touchmove', function(e) {
+            if (!startX) return;
+            const x = e.touches[0].pageX - tableContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            tableContainer.scrollLeft = scrollLeft - walk;
+        });
+    }
+}
+
+
+
+window.initMultiplicationGame = initMultiplicationGame;
