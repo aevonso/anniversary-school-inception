@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная - Школьный портал</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Gabriela&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header-container"></div>
+    
+    <main class="content">
+        <h1>Добро пожаловать на школьный портал!</h1>
+        <p>Выберите один из разделов ниже:</p>
+        
+        <ul class="menu-list">
+            <li><i class="fas fa-times-circle"></i> Таблица умножения</li>
+            <li><i class="fas fa-paint-brush"></i> Разукрашка</li>
+            <li><i class="fas fa-school"></i> Сайт нашей школы</li>
+            <li><i class="fab fa-vk"></i> Группа VKонтакте</li>
+            <li><i class="fas fa-newspaper"></i> Группа Пресс-центра</li>
+        </ul>
+        
+        <div class="welcome-section">
+            <h2>Таблица умножения</h2>
+            <p>Изучайте таблицу умножения в игровой форме!</p>
+            <button class="action-button">Начать изучение</button>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('layout.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-container').innerHTML = data;
+                    if (typeof initHeader === 'function') {
+                        initHeader();
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
