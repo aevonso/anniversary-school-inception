@@ -62,7 +62,6 @@
         <p>© 2025 юбилей школы №4. Все права защищены.</p>
     </footer>
 
-    <!-- Модальное окно -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
@@ -74,109 +73,102 @@
     </div>
 
     <script src="js/script.js"></script>
-    <script>
-        // Загрузка хедера
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('layout.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header-container').innerHTML = data;
-                    // Инициализация после загрузки хедера
-                    if (typeof initHeader === 'function') {
-                        initHeader();
-                    }
-                })
-                .catch(error => {
-                    console.error('Ошибка загрузки хедера:', error);
-                    document.getElementById('header-container').innerHTML = `
-                        <header class="header">
-                            <div class="logo">
-                                <img src="images/logo.jpg" alt="Логотип школы">
-                            </div>
-                            <nav class="nav-menu">
-                                <a href="../pages/multiplication.html" class="nav-item"><i class="fas fa-times-circle"></i> Таблица умножения</a>
-                                <a href="#" class="nav-item"><i class="fas fa-paint-brush"></i> Разукрашка</a>
-                                <a href="https://school-4.edusite.ru/" class="nav-item"><i class="fas fa-school"></i> Сайт школы</a>
-                                <a href="https://vk.com/prestige_4" class="nav-item"><i class="fab fa-vk"></i> Группа VKонтакте</a>
-                                <a href="https://vk.com/asjfksu" class="nav-item"><i class="fas fa-newspaper"></i> Пресс-центр</a>
-                            </nav>
-                        </header>
-                        <div class="separator"></div>
-                    `;
-                    initModal();
-                });
-        });
-
-        // Функция перехода к таблице умножения
-        function navigateToMultiplication() {
-            window.location.href = 'pages/multiplication.html';
-        }
-
-        // Инициализация модального окна
-        function initModal() {
-            const modal = document.getElementById('modal');
-            const closeBtn = document.querySelector('.close-modal');
-            const modalBtn = document.querySelector('.modal-button');
-            
-            if (closeBtn) {
-                closeBtn.addEventListener('click', hideModal);
-            }
-            
-            if (modalBtn) {
-                modalBtn.addEventListener('click', hideModal);
-            }
-            
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    hideModal();
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('layout.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+                if (typeof initHeader === 'function') {
+                    initHeader();
                 }
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки хедера:', error);
+                document.getElementById('header-container').innerHTML = `
+                    <header class="header">
+                        <div class="logo">
+                            <img src="images/logo.jpg" alt="Логотип школы">
+                        </div>
+                        <nav class="nav-menu">
+                            <a href="pages/multiplication.html" class="nav-item"><i class="fas fa-times-circle"></i> Главная страница</a>
+                            <a href="#" class="nav-item"><i class="fas fa-paint-brush"></i> Разукрашка</a>
+                            <a href="https://school-4.edusite.ru/" class="nav-item" target="_blank"><i class="fas fa-school"></i> Сайт школы</a>
+                            <a href="https://vk.com/prestige_4" class="nav-item" target="_blank"><i class="fab fa-vk"></i> VKонтакте</a>
+                            <a href="https://vk.com/asjfksu" class="nav-item" target="_blank"><i class="fas fa-newspaper"></i> Пресс-центр</a>
+                        </nav>
+                    </header>
+                    <div class="separator"></div>
+                `;
+                initModal();
             });
-        }
+    });
 
-        // Показать модальное окно
-        function showModal(type, title, message) {
-            const modal = document.getElementById('modal');
-            const icon = document.getElementById('modal-icon');
-            const modalTitle = document.getElementById('modal-title');
-            const modalMessage = document.getElementById('modal-message');
-            
-            if (!modal || !icon || !modalTitle || !modalMessage) return;
-            
-            // Устанавливаем иконку в зависимости от типа
-            icon.className = 'modal-icon';
-            switch(type) {
-                case 'info':
-                    icon.innerHTML = '<i class="fas fa-info-circle"></i>';
-                    icon.classList.add('info');
-                    break;
-                case 'success':
-                    icon.innerHTML = '<i class="fas fa-check-circle"></i>';
-                    icon.classList.add('success');
-                    break;
-                case 'error':
-                    icon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
-                    icon.classList.add('error');
-                    break;
+    function navigateToMultiplication() {
+        window.location.href = 'pages/multiplication.html';
+    }
+
+    function initModal() {
+        const modal = document.getElementById('modal');
+        const closeBtn = document.querySelector('.close-modal');
+        const modalBtn = document.querySelector('.modal-button');
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', hideModal);
+        }
+        
+        if (modalBtn) {
+            modalBtn.addEventListener('click', hideModal);
+        }
+        
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                hideModal();
             }
-            
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            modal.style.display = 'block';
-        }
+        });
+    }
 
-        // Скрыть модальное окно
-        function hideModal() {
-            const modal = document.getElementById('modal');
-            if (modal) {
-                modal.style.display = 'none';
-            }
+    function showModal(type, title, message) {
+        const modal = document.getElementById('modal');
+        const icon = document.getElementById('modal-icon');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        
+        if (!modal || !icon || !modalTitle || !modalMessage) return;
+        
+        icon.className = 'modal-icon';
+        switch(type) {
+            case 'info':
+                icon.innerHTML = '<i class="fas fa-info-circle"></i>';
+                icon.classList.add('info');
+                break;
+            case 'success':
+                icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                icon.classList.add('success');
+                break;
+            case 'error':
+                icon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+                icon.classList.add('error');
+                break;
         }
+        
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+        modal.style.display = 'block';
+    }
 
-        document.body.style.opacity = '0';
-        setTimeout(() => {
-            document.body.style.transition = 'opacity 0.5s ease-in';
-            document.body.style.opacity = '1';
-        }, 100);
-    </script>
+    function hideModal() {
+        const modal = document.getElementById('modal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+        document.body.style.transition = 'opacity 0.5s ease-in';
+        document.body.style.opacity = '1';
+    }, 100);
+</script>
 </body>
 </html>
