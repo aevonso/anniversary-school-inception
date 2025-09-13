@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Gabriela&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Вставка хедера -->
     <div id="header-container"></div>
     
     <main class="content">
@@ -16,32 +17,91 @@
         <p>Выберите один из разделов ниже:</p>
         
         <ul class="menu-list">
-            <li><i class="fas fa-times-circle"></i> Таблица умножения</li>
-            <li><i class="fas fa-paint-brush"></i> Разукрашка</li>
-            <li><i class="fas fa-school"></i> Сайт нашей школы</li>
-            <li><i class="fab fa-vk"></i> Группа VKонтакте</li>
-            <li><i class="fas fa-newspaper"></i> Группа Пресс-центра</li>
+            <li onclick="navigateToMultiplication()">
+                <i class="fas fa-times-circle"></i> Таблица умножения
+            </li>
+            <li onclick="alert('Раздел в разработке: Разукрашка')">
+                <i class="fas fa-paint-brush"></i> Разукрашка
+            </li>
+            <li onclick="alert('Раздел в разработке: Сайт нашей школы')">
+                <i class="fas fa-school"></i> Сайт нашей школы
+            </li>
+            <li onclick="window.open('https://vk.com', '_blank')">
+                <i class="fab fa-vk"></i> Группа VKонтакте
+            </li>
+            <li onclick="alert('Раздел в разработке: Группа Пресс-центра')">
+                <i class="fas fa-newspaper"></i> Группа Пресс-центра
+            </li>
         </ul>
         
         <div class="welcome-section">
             <h2>Таблица умножения</h2>
-            <p>Изучайте таблицу умножения в игровой форме!</p>
-            <button class="action-button">Начать изучение</button>
+            <p>Изучайте таблицу умножения в игровой форме! Наша интерактивная игра поможет вам легко и быстро запомнить таблицу умножения.</p>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Для 1-4 классов</h3>
+                    <p>Специально разработано для младших школьников</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-gamepad"></i>
+                    <h3>10 уровней сложности</h3>
+                    <p>От простого к сложному</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-star"></i>
+                    <h3>Система оценок</h3>
+                    <p>Получайте оценки за свои результаты</p>
+                </div>
+            </div>
+            <button class="action-button" onclick="navigateToMultiplication()">Начать изучение</button>
+        </div>
+
+        <div class="news-section">
+            <h2>Последние новости</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>Новая игра!</h3>
+                    <p>Добавлена интерактивная таблица умножения с игровыми элементами</p>
+                    <span class="news-date">15.01.2024</span>
+                </div>
+                <div class="news-card">
+                    <h3>Скоро обновление</h3>
+                    <p>В разработке раздел "Разукрашка" для творческого развития</p>
+                    <span class="news-date">10.01.2024</span>
+                </div>
+            </div>
         </div>
     </main>
 
+    <footer class="footer">
+        <p>© 2024 Школьный портал. Все права защищены.</p>
+    </footer>
+
     <script src="js/script.js"></script>
     <script>
+        // Загрузка хедера
         document.addEventListener('DOMContentLoaded', function() {
             fetch('layout.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('header-container').innerHTML = data;
+                    // Инициализация после загрузки хедера
                     if (typeof initHeader === 'function') {
                         initHeader();
                     }
                 });
         });
+
+        // Функция перехода к таблице умножения
+        function navigateToMultiplication() {
+            window.location.href = 'pages/multiplication.html';
+        }
+
+        // Функция для показа уведомления о разработке
+        function showDevelopmentNotice() {
+            alert('Этот раздел находится в разработке. Скоро будет доступен!');
+        }
     </script>
 </body>
 </html>

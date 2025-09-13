@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица умножения - Игра</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/game.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Gabriela&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header-container"></div>
+    
+    <main class="content">
+        <!-- Экран с таблицей умножения -->
+        <section id="multiplication-table-screen" class="screen active">
+            <h1>Таблица умножения</h1>
+            <div class="multiplication-table">
+                <div class="table-row header">
+                    <div>×</div>
+                    <div>1</div>
+                    <div>2</div>
+                    <div>3</div>
+                    <div>4</div>
+                    <div>5</div>
+                    <div>6</div>
+                    <div>7</div>
+                    <div>8</div>
+                    <div>9</div>
+                    <div>10</div>
+                </div>
+                <!-- Таблица будет сгенерирована через JavaScript -->
+            </div>
+            <button class="action-button start-game-btn">Приступить к игре!</button>
+        </section>
+
+        <!-- Экран регистрации -->
+        <section id="registration-screen" class="screen">
+            <h1>Регистрация</h1>
+            <form id="registration-form" class="registration-form">
+                <div class="form-group">
+                    <label for="firstName">Имя:</label>
+                    <input type="text" id="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Фамилия:</label>
+                    <input type="text" id="lastName" required>
+                </div>
+                <div class="form-group">
+                    <label for="class">Класс:</label>
+                    <select id="class" required>
+                        <option value="">Выберите класс</option>
+                        <option value="1">1 класс</option>
+                        <option value="2">2 класс</option>
+                        <option value="3">3 класс</option>
+                        <option value="4">4 класс</option>
+                    </select>
+                </div>
+                <button type="submit" class="action-button">Начать игру!</button>
+            </form>
+        </section>
+
+        <!-- Экран выбора уровня -->
+        <section id="level-selection-screen" class="screen">
+            <h1>Выберите уровень</h1>
+            <p>Игрок: <span id="player-name"></span>, <span id="player-class"></span> класс</p>
+            <div class="levels-grid">
+                <!-- Уровни будут сгенерированы через JavaScript -->
+            </div>
+        </section>
+
+        <!-- Экран игры -->
+        <section id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="player-info">
+                    <span id="current-player"></span>
+                    <span>Уровень: <span id="current-level"></span></span>
+                </div>
+                <div class="game-stats">
+                    <span>Верно: <span id="correct-answers">0</span></span>
+                    <span>Ошибки: <span id="wrong-answers">0</span></span>
+                </div>
+            </div>
+
+            <div class="game-content">
+                <div class="question" id="question"></div>
+                <input type="number" id="answer-input" placeholder="Введите ответ">
+                <button id="submit-answer" class="action-button">Проверить</button>
+            </div>
+
+            <div class="game-footer">
+                <button id="back-to-levels" class="secondary-button">Вернуться к уровням</button>
+            </div>
+        </section>
+
+        <!-- Экран результатов -->
+        <section id="results-screen" class="screen">
+            <h1>Результаты</h1>
+            <div class="results-container">
+                <div class="result-card">
+                    <h2>Поздравляем!</h2>
+                    <p>Уровень: <span id="result-level"></span></p>
+                    <p>Правильных ответов: <span id="result-correct"></span></p>
+                    <p>Ошибок: <span id="result-wrong"></span></p>
+                    <p>Оценка: <span id="result-grade"></span></p>
+                </div>
+            </div>
+            <div class="results-buttons">
+                <button id="play-again" class="action-button">Играть еще раз</button>
+                <button id="back-to-menu" class="secondary-button">В главное меню</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/multiplication-game.js"></script>
+    <script>
+        // Загрузка хедера
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('../layout.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-container').innerHTML = data;
+                    if (typeof initHeader === 'function') {
+                        initHeader();
+                    }
+                    // Инициализация игры после загрузки хедера
+                    if (typeof initMultiplicationGame === 'function') {
+                        initMultiplicationGame();
+                    }
+                });
+        });
+    </script>
+</body>
+</html>

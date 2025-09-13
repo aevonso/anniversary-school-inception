@@ -47,3 +47,22 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.opacity = '1';
     }, 100);
 });
+
+
+function handleGameNavigation() {
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            if (this.getAttribute('href').includes('multiplication')) {
+                return true;
+            }
+            
+            if (this.getAttribute('href') === '#' || 
+                this.getAttribute('href') === '../index.html') {
+                e.preventDefault();
+                alert('Переход к: ' + this.textContent.trim());
+            }
+        });
+    });
+}

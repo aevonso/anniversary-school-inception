@@ -1,0 +1,232 @@
+.multiplication-table {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 2px;
+    margin: 20px 0;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.table-row {
+    display: contents;
+}
+
+.table-row > div {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+.table-row.header > div {
+    background-color: #4a76a8;
+    color: white;
+    font-weight: bold;
+}
+
+.table-row:nth-child(even) > div {
+    background-color: #f9f9f9;
+}
+
+.table-row:hover > div {
+    background-color: #e3f2fd;
+}
+
+.start-game-btn {
+    margin-top: 30px;
+    font-size: 18px;
+    padding: 15px 30px;
+}
+
+/* Форма регистрации */
+.registration-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #4a76a8;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Gabriela', serif;
+    font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4a76a8;
+}
+
+/* Выбор уровня */
+.levels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.level-button {
+    padding: 20px;
+    font-size: 24px;
+    background: linear-gradient(135deg, #4a76a8, #6a96c8);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.level-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(74, 118, 168, 0.3);
+}
+
+.level-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Игровой экран */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #f0f5ff;
+    border-radius: 8px;
+}
+
+.player-info,
+.game-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.game-content {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.question {
+    font-size: 48px;
+    font-weight: bold;
+    color: #4a76a8;
+    margin-bottom: 30px;
+}
+
+#answer-input {
+    font-size: 24px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    border: 3px solid #4a76a8;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+#submit-answer {
+    font-size: 20px;
+    padding: 15px 30px;
+}
+
+.game-footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.secondary-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-family: 'Gabriela', serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.secondary-button:hover {
+    background-color: #5a6268;
+}
+
+/* Экран результатов */
+.results-container {
+    margin: 30px 0;
+}
+
+.result-card {
+    background: linear-gradient(135deg, #f0f5ff, #e8ecf1);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.result-card h2 {
+    color: #4a76a8;
+    margin-bottom: 20px;
+}
+
+.result-card p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.results-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .multiplication-table {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .table-row > div:nth-child(n+7) {
+        display: none;
+    }
+    
+    .levels-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .game-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .results-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
