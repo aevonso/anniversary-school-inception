@@ -89,16 +89,6 @@
             }
         }
 
-        // Функция для корректного формирования пути к изображению
-        function getImagePath(basePath, imageName) {
-            // Если basePath пустой (мы на главной), используем images/
-            if (basePath === '') {
-                return 'images/' + imageName;
-            }
-            // Если basePath содержит '../', используем images/ без изменения
-            return basePath + 'images/' + imageName;
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             const basePath = getBasePath();
             
@@ -112,11 +102,10 @@
                 })
                 .catch(error => {
                     console.error('Ошибка загрузки хедера:', error);
-                    const logoPath = getImagePath(basePath, 'logo.jpg?v=3');
                     document.getElementById('header-container').innerHTML = `
                         <header class="header">
                             <div class="logo">
-                                <img src="${logoPath}" alt="Логотип школы">
+                                <img src="https://sun9-43.userapi.com/s/v1/ig1/dyVW0o8Y7P47QRi99Py6sPCZQbMtPdSLIO529QEqmD5miRbdCatBazgUuHnRb4bnnC5vnkDn.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&from=bu&cs=1080x0" alt="Логотип школы">
                             </div>
                             <nav class="nav-menu">
                                 <a href="${basePath}pages/multiplication.html?v=3" class="nav-item"><i class="fas fa-times-circle"></i>Таблица умножения</a>
