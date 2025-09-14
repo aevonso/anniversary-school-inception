@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Разукрашка - Школьный портал</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/coloring.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Gabriela&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header-container"></div>
+    
+    <main class="content">
+        <section id="coloring-screen" class="screen active">
+            <h1>Разукрашка</h1>
+            
+            <div class="coloring-container">
+                <div class="coloring-canvas">
+                    <div class="logo-container">
+                        <svg id="logo-svg" width="300" height="300" viewBox="0 0 300 300">
+                            <!-- Эллипс (основа) -->
+                            <ellipse id="ellipse-base" cx="150" cy="150" rx="120" ry="120" fill="#f0f7fd" stroke="#4a76a8" stroke-width="3"/>
+                            
+                            <!-- Логотип школы -->
+                            <image id="school-logo" href="https://img.icons8.com/?size=100&id=AyXuc49fiJPS&format=png&color=000000" x="90" y="90" width="120" height="120" preserveAspectRatio="xMidYMid meet"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="canvas-controls">
+                        <button id="reset-coloring" class="secondary-button">
+                            <i class="fas fa-undo"></i> Сбросить
+                        </button>
+                        <button id="save-coloring" class="action-button">
+                            <i class="fas fa-download"></i> Сохранить
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="color-palette">
+                    <h3>Выберите цвет:</h3>
+                    <div class="color-options">
+                        <div class="color-option" data-color="#4a76a8" style="background-color: #4a76a8;"></div>
+                        <div class="color-option" data-color="#ff6b6b" style="background-color: #ff6b6b;"></div>
+                        <div class="color-option" data-color="#4ecdc4" style="background-color: #4ecdc4;"></div>
+                        <div class="color-option" data-color="#ffd166" style="background-color: #ffd166;"></div>
+                        <div class="color-option" data-color="#6a0572" style="background-color: #6a0572;"></div>
+                        <div class="color-option" data-color="#06d6a0" style="background-color: #06d6a0;"></div>
+                        <div class="color-option" data-color="#118ab2" style="background-color: #118ab2;"></div>
+                        <div class="color-option" data-color="#f72585" style="background-color: #f72585;"></div>
+                        <div class="color-option" data-color="#7209b7" style="background-color: #7209b7;"></div>
+                        <div class="color-option" data-color="#3a0ca3" style="background-color: #3a0ca3;"></div>
+                    </div>
+                    
+                    <div class="custom-color">
+                        <label for="custom-color-picker">Или выберите свой цвет:</label>
+                        <input type="color" id="custom-color-picker" value="#4a76a8">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="coloring-instructions">
+                <h3>Как раскрашивать:</h3>
+                <ol>
+                    <li>Выберите цвет из палитры или используйте пипетку</li>
+                    <li>Кликните на эллипс вокруг логотипа, чтобы окрасить его</li>
+                    <li>Можно сохранить результат или сбросить раскраску</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon" id="modal-icon"></div>
+            <h3 id="modal-title"></h3>
+            <p id="modal-message"></p>
+            <button class="action-button modal-button">Понятно</button>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/coloring.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('../layout.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-container').innerHTML = data;
+                    if (typeof initHeader === 'function') {
+                        initHeader();
+                    }
+                    if (typeof initColoring === 'function') {
+                        initColoring();
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки хедера:', error);
+                    document.getElementById('header-container').innerHTML = `
+                        <header class="header">
+                            <div class="logo">
+                                <img src="../images/logo.jpg" alt="Логотип школы">
+                            </div>
+                            <nav class="nav-menu">
+                                <a href="../index.html" class="nav-item"><i class="fas fa-home"></i> Главная</a>
+                                <a href="multiplication.html" class="nav-item"><i class="fas fa-times-circle"></i> Таблица умножения</a>
+                                <a href="coloring.html" class="nav-item active"><i class="fas fa-paint-brush"></i> Разукрашка</a>
+                                <a href="https://school-4.edusite.ru/" class="nav-item" target="_blank"><i class="fas fa-school"></i> Сайт школы</a>
+                                <a href="https://vk.com/prestige_4" class="nav-item" target="_blank"><i class="fab fa-vk"></i> VKонтакте</a>
+                            </nav>
+                        </header>
+                        <div class="separator"></div>
+                    `;
+                    if (typeof initColoring === 'function') {
+                        initColoring();
+                    }
+                });
+        });
+    </script>
+</body>
+</html>

@@ -23,16 +23,16 @@
             <li onclick="navigateToMultiplication()">
                 <i class="fas fa-times-circle"></i> Таблица умножения
             </li>
-            <li onclick="showModal('info', 'Разукрашка', 'Этот раздел находится в разработке. Скоро здесь появятся интересные раскраски!')">
+            <li onclick="window.open('pages/coloring.html')">
                 <i class="fas fa-paint-brush"></i> Разукрашка
             </li>
-            <li onclick="showModal('info', 'Сайт школы', 'Раздел в разработке. Скоро будет доступен официальный сайт школы!')">
+            <li onclick="window.open('https://school-4.edusite.ru/')">
                 <i class="fas fa-school"></i> Сайт нашей школы
             </li>
-            <li onclick="window.open('https://vk.com', '_blank')">
+            <li onclick="window.open('https://vk.com/prestige_4')">
                 <i class="fab fa-vk"></i> Группа VKонтакте
             </li>
-            <li onclick="showModal('info', 'Пресс-центр', 'Раздел в разработке. Скоро здесь будут новости школьного пресс-центра!')">
+            <li onclick="window.open('https://vk.com/asjfksu')">
                 <i class="fas fa-newspaper"></i> Группа Пресс-центра
             </li>
         </ul>
@@ -106,11 +106,11 @@
                     document.getElementById('header-container').innerHTML = `
                         <header class="header">
                             <div class="logo">
-                                <img src="images/logo.jpg?v=3" alt="Логотип школы">
+                                <img src="${basePath}images/logo.jpg?v=3" alt="Логотип школы">
                             </div>
                             <nav class="nav-menu">
-                                <a href="pages/multiplication.html?v=3" class="nav-item"><i class="fas fa-times-circle"></i>Таблица умножения</a>
-                                <a href="#" class="nav-item"><i class="fas fa-paint-brush"></i> Разукрашка</a>
+                                <a href="${basePath}pages/multiplication.html?v=3" class="nav-item"><i class="fas fa-times-circle"></i>Таблица умножения</a>
+                                <a href="${basePath}pages/coloring.html" class="nav-item"><i class="fas fa-paint-brush"></i> Разукрашка</a>
                                 <a href="https://school-4.edusite.ru/" class="nav-item" target="_blank"><i class="fas fa-school"></i> Сайт школы</a>
                                 <a href="https://vk.com/prestige_4" class="nav-item" target="_blank"><i class="fab fa-vk"></i> VKонтакте</a>
                                 <a href="https://vk.com/asjfksu" class="nav-item" target="_blank"><i class="fas fa-newspaper"></i> Пресс-центр</a>
@@ -125,6 +125,11 @@
         function navigateToMultiplication() {
             const basePath = getBasePath();
             window.location.href = basePath + 'pages/multiplication.html?v=3';
+        }
+
+        function navigateToColoring() {
+            const basePath = getBasePath();
+            window.location.href = basePath + 'pages/coloring.html';
         }
 
         function initModal() {
