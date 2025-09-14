@@ -1,11 +1,12 @@
-// Функция для инициализации хедера
 function initHeader() {
+    console.log('Инициализация хедера...');
+    
     const navItems = document.querySelectorAll('.nav-item');
     
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
-            if (href === '#' || href === '../index.html') {
+            if (href === '#' || href.includes('index.html')) {
                 e.preventDefault();
                 showNavigationNotice(this.textContent.trim());
             }
@@ -133,7 +134,7 @@ function handleGameNavigation() {
             }
             
             if (this.getAttribute('href') === '#' || 
-                this.getAttribute('href') === '../index.html') {
+                this.getAttribute('href').includes('index.html')) {
                 e.preventDefault();
                 showNavigationNotice(this.textContent.trim());
             }
