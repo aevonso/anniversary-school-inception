@@ -86,7 +86,7 @@
     <script src="../js/coloring.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('../layout.html')
+            fetch('../layout2.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('header-container').innerHTML = data;
@@ -114,6 +114,7 @@
                         </header>
                         <div class="separator"></div>
                     `;
+                    
                     if (typeof initColoring === 'function') {
                         initColoring();
                     }

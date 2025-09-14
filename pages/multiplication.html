@@ -146,12 +146,12 @@
         </div>
     </div>
 
-    <script src="../js/script.js?v=3"></script>
-    <script src="../js/multiplication-game.js?v=3"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/multiplication-game.js"></script>
     <script>
         // Загрузка хедера
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('../layout.html?v=3')
+            fetch('../layout.html2')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('header-container').innerHTML = data;
@@ -171,8 +171,8 @@
         <img src="../images/logo.jpg?v=3" alt="Логотип школы">
     </div>
                             <nav class="nav-menu">
-                                <a href="../index.html?v=3" class="nav-item"><i class="fas fa-times-circle"></i> Главная страница</a>
-                                <a href="#" class="nav-item"><i class="fas fa-paint-brush"></i> Разукрашка</a>
+                                <a href="multiplication.html" class="nav-item"><i class="fas fa-times-circle"></i> Таблица умножения</a>
+                                <a href="coloring.html" class="nav-item active"><i class="fas fa-paint-brush"></i> Разукрашка</a>
                                 <a href="https://school-4.edusite.ru/" class="nav-item"><i class="fas fa-school"></i> Сайт школы</a>
                                 <a href="https://vk.com/prestige_4" class="nav-item"><i class="fab fa-vk"></i> VKонтакте</a>
                                 <a href="https://vk.com/asjfksu" class="nav-item"><i class="fas fa-newspaper"></i> ГОРИЗОНТ</a>
@@ -180,11 +180,16 @@
                         </header>
                         <div class="separator"></div>
                     `;
+                    
                     if (typeof initMultiplicationGame === 'function') {
                         initMultiplicationGame();
                     }
                 });
         });
+
+
+
+       
     </script>
 </body>
 </html>
